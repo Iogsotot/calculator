@@ -129,7 +129,6 @@ const deleteButton = document.querySelector(".delete")
 const allClearButton = document.querySelector(".all-clear")
 const clearButton = document.querySelector(".current-clear")
 
-let result = document.querySelector(".result")
 const prevOperandTextElement = document.querySelector(".previous-operand")
 const currentOperandTextElement = document.querySelector(".current-operand")
 
