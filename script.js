@@ -3,6 +3,7 @@ class Calculator {
         this.prevOperandTextElement = prevOperandTextElement
         this.currentOperandTextElement = currentOperandTextElement 
         this.allClear()
+        this.readyToReset = false
     }
 
     allClear() {
@@ -21,6 +22,10 @@ class Calculator {
 
     delete() {
         this.currentOperand = this.currentOperand.toString().slice(0, -1)
+    }
+
+    plusMinusToggle() {
+        this.currentOperand *= -1
     }
 
     appendNumber(number) {
@@ -42,52 +47,44 @@ class Calculator {
         let computation
         let prev = parseFloat(this.prevOperand)
         let current = parseFloat(this.currentOperand)
-        // if (!isNaN(prev) && this.operation === '√x') {
-        //     computation = Math.sqrt(prev)
-        //     console.log("у меня тут корень..")
-        //     return
-        // }
+
         if (isNaN(prev) || isNaN(current)) return
-        // if (this.operation === '√x') {
-        //     console.log('prev')
-        // }
         switch (this.operation) {
             case '+':
-                computation = prev + current
+                computation = Math.round(prev + current)
                 break
             case '-':
-                computation = prev - current
+                computation = Math.round(prev - current)
                 break
             case '*':
-                computation = prev * current
+                computation = Math.round(prev * current)
                 break
+            case '÷':
+                computation = Math.round(prev / current)
+                break
+
             case '√x':
                 computation = Math.sqrt(current)
                 console.log('корень из ' + current + ' = ' + Math.sqrt(current))
-                // calculator.updateDisplay()
-                break 
-            case '÷':
-                computation = prev / current
-                break
+                break                 
             case 'xy':
-                computation = prev ** current
+                computation = Math.round(prev ** current)
                 break
+
             default:
                 return
         }
         this.currentOperand = computation
+        this.display = this.currentOperand
         this.operation = undefined
-        // this.prevOperand = ''
+        this.prevOperand = ''
+        this.readyToReset = true
     }
 
     getDisplayNumber(number) {
         const stringNumber = number.toString()
         const integerDigits = parseFloat(stringNumber.split('.')[0])
         const decimalDigits = stringNumber.split('.')[1]
-        // const decimalDigits = parseFloat(stringNumber.split('.')[1])
-        // const floatNumber = parseFloat(number)
-        // if (isNaN(floatNumber)) return ''
-        // return floatNumber.toLocaleString()
         let integerDisplay
         if (isNaN(integerDigits)) {
             integerDisplay = ''
@@ -128,6 +125,7 @@ const equalButton = document.querySelector(".equal-sign")
 const deleteButton = document.querySelector(".delete")
 const allClearButton = document.querySelector(".all-clear")
 const clearButton = document.querySelector(".current-clear")
+const plusMinusButton = document.querySelector(".plus-minus-change")
 
 let result = document.querySelector(".result")
 const prevOperandTextElement = document.querySelector(".previous-operand")
@@ -166,5 +164,10 @@ clearButton.addEventListener('click', button => {
 
 deleteButton.addEventListener('click', button => {
     calculator.delete()
+    calculator.updateDisplay()
+})
+
+plusMinusButton.addEventListener('click', () => {
+    calculator.plusMinusToggle()
     calculator.updateDisplay()
 })
