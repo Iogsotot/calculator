@@ -60,21 +60,24 @@ footer {
     color: #ffffff;
     font-size: 16px;
     background-color: #010616;
+    /* background-color: rgba(255, 0, 0, 0.5); */
 }
 
-.previous-operand {
+.display > .previous-operand {
+    height: 15px;
     font-size: 16px;
     opacity: 0.7;
 }
-
-.current-operand {
+.display > .current-operand {
+    height: 15px;
     font-size: 22px;
 }
 
-.result {
+/* .display > .result {
     font-size: 24px;
-    color: #fff280;
-}
+    color: rgb(104, 0, 0);
+    height: 20px
+} */
 
 .double-size {
     grid-column: span 2;
