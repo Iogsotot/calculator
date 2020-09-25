@@ -1,23 +1,21 @@
 class Calculator {
-    constructor(prevOperandTextElement, currentOperandTextElement, resultBlock) {
+    constructor(prevOperandTextElement, currentOperandTextElement) {
         this.prevOperandTextElement = prevOperandTextElement
         this.currentOperandTextElement = currentOperandTextElement
-        this.resultBlock = resultBlock 
         this.allClear()
         this.readyToReset = false
     }
-
+    
     allClear() {
         this.currentOperand = '0'
         this.prevOperand = ''
+        this.operation = undefined;
         this.prevOperandTextElement.innerText = ''
         this.currentOperandTextElement.innerText = '0'
-        this.operation = undefined
-        this.resultBlock = ''
     }
 
     clear() {
-        this.currentOperand = ''
+        this.currentOperand = '0'
         this.operation = undefined
 
     }
@@ -46,6 +44,28 @@ class Calculator {
         this.currentOperand = ''
     }
 
+    sqrtCompute() {
+        let computation
+        // let prev = parseFloat(this.prevOperand)
+        let current = parseFloat(this.currentOperand)
+        let result
+        if (this.operation === '√x') {
+            console.log('мы тут запустили функцию по извлечению корня..')
+            result = Math.sqrt(current)
+            computation = result.toFixed(2)
+            current = '0'
+            console.log('(IN) result = ' + result)
+            console.log('(IN) computation = ' + computation)
+            
+        }
+        this.currentOperand = computation
+        this.operation = undefined
+        // this.prevOperand = ''
+        this.readyToReset = true
+        console.log('(2rd) result = ' + result)
+        console.log('(2rd) computation = ' + computation)
+    }
+
     compute() {
         let computation
         let prev = parseFloat(this.prevOperand)
@@ -56,38 +76,37 @@ class Calculator {
         switch (this.operation) {
             case '+':
                 result = (prev + current).toFixed(2)
-                computation = result.toString()
+                computation = result * 1
                 break
             case '-':
-                result = prev - current
-                computation = result.toFixed(2)
+                result = (prev - current).toFixed(2)
+                computation = result * 1
                 break
             case '*':
-                result = prev * current
-                computation = result.toFixed(2)
+                result = (prev * current).toFixed(2)
+                computation = result * 1
                 break
             case '÷':
-                result = prev / current
-                computation = result.toFixed(2)
+                result = (prev / current).toFixed(2)
+                computation = result * 1
                 break
 
-            case '√x':
-                result = Math.sqrt(current)
-                computation = result.toFixed(2)
-                // this.updateDisplay()
-                break                 
+            // case '√x':
+            //     result = Math.sqrt(current)
+            //     computation = result.toFixed(2)
+            //     // this.updateDisplay()
+            //     break                 
             case 'xy':
-                result = prev ** current
-                computation = result.toFixed(2)
+                result = (prev ** current).toFixed(2)
+                computation = result * 1
                 break
 
             default:
                 return
         }
         this.currentOperand = computation
-        this.display = this.currentOperand
         this.operation = undefined
-        // this.prevOperand = ''
+        this.prevOperand = ''
         this.readyToReset = true
     }
 
@@ -123,7 +142,6 @@ class Calculator {
                 console.log('else')
                 this.prevOperandTextElement.innerText = `${this.getDisplayNumber(this.prevOperand)} ${this.operation}`
             }
-            
         } else {
             this.prevOperandTextElement.innerText = ''
         }
@@ -145,7 +163,7 @@ let resultBlock = document.querySelector(".result")
 const prevOperandTextElement = document.querySelector(".previous-operand")
 const currentOperandTextElement = document.querySelector(".current-operand")
 
-const calculator = new Calculator(prevOperandTextElement, currentOperandTextElement, resultBlock)
+const calculator = new Calculator(prevOperandTextElement, currentOperandTextElement)
 
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -168,8 +186,8 @@ equalButton.addEventListener('click', () => {
 
 sqrtButton.addEventListener('click', () => {
     // calculator.operation = '√x'
-    calculator.compute()
-    calculator.updateDisplay()
+    calculator.sqrtCompute()
+    // calculator.updateDisplay()
 })
 
 allClearButton.addEventListener('click', () => {
