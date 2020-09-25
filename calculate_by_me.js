@@ -44,26 +44,25 @@ class Calculator {
         this.currentOperand = ''
     }
 
+    error() {
+        this.currentOperandTextElement.innerText = "ERROR"
+        // may be some more error handling
+    }
+
     sqrtCompute() {
         let computation
-        // let prev = parseFloat(this.prevOperand)
-        let current = parseFloat(this.currentOperand)
+        let prev = parseFloat(this.prevOperand)
         let result
         if (this.operation === '√x') {
-            console.log('мы тут запустили функцию по извлечению корня..')
-            result = Math.sqrt(current)
-            computation = result.toFixed(2)
-            current = '0'
-            console.log('(IN) result = ' + result)
-            console.log('(IN) computation = ' + computation)
-            
+            if (Math.sign(prev) > 0) {
+                result = (Math.sqrt(prev)).toFixed(2)
+                computation = result * 1
+            } else {
+                this.error()
+            }
         }
         this.currentOperand = computation
-        this.operation = undefined
-        // this.prevOperand = ''
         this.readyToReset = true
-        console.log('(2rd) result = ' + result)
-        console.log('(2rd) computation = ' + computation)
     }
 
     compute() {
@@ -89,13 +88,7 @@ class Calculator {
             case '÷':
                 result = (prev / current).toFixed(2)
                 computation = result * 1
-                break
-
-            // case '√x':
-            //     result = Math.sqrt(current)
-            //     computation = result.toFixed(2)
-            //     // this.updateDisplay()
-            //     break                 
+                break              
             case 'xy':
                 result = (prev ** current).toFixed(2)
                 computation = result * 1
@@ -136,7 +129,7 @@ class Calculator {
             } 
             if (this.operation === '√x') {
                 this.prevOperandTextElement.innerText = `√${this.getDisplayNumber(this.prevOperand)}`
-                // this.currentOperandTextElement.innerText = `${this.getDisplayNumber(Math.sqrt(this.prevOperand))}`
+                this.currentOperandTextElement.innerText = `${this.getDisplayNumber(this.computation)}`
             }
             else if (this.operation === '+' || this.operation === '-' || this.operation === '÷' || this.operation === '*' ) {
                 console.log('else')
@@ -185,9 +178,8 @@ equalButton.addEventListener('click', () => {
 })
 
 sqrtButton.addEventListener('click', () => {
-    // calculator.operation = '√x'
     calculator.sqrtCompute()
-    // calculator.updateDisplay()
+    calculator.updateDisplay()
 })
 
 allClearButton.addEventListener('click', () => {
