@@ -24,6 +24,11 @@ class Calculator {
         this.currentOperand = this.currentOperand.toString().slice(0, -1)
     }
 
+    skipToNextOperation() {
+        this.prevOperand = this.currentOperand
+        this.operation = undefined
+    }
+
     plusMinusToggle() {
         this.currentOperand *= -1
     }
@@ -175,6 +180,7 @@ operationButtons.forEach(button => {
 equalButton.addEventListener('click', () => {
     calculator.compute()
     calculator.updateDisplay()
+    calculator.skipToNextOperation()
 })
 
 sqrtButton.addEventListener('click', () => {
