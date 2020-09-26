@@ -39,21 +39,14 @@ class Calculator {
         this.currentOperand *= -1
     }
 
-    errorBig() {
-        this.currentOperandTextElement.innerText = 'ERROR: too big number';
-        setTimeout(this.allClear, 1000);
-        // this.allClear()
-    }
-
     appendNumber(number) {
-        // if (this.currentOperand.length > 15) {
-        //     this.errorBig()
-        //     return
-        // } else {
+        if (this.currentOperand.length > 14) {
+            return
+        } else {
             if (number === '.' && this.currentOperand.includes('.')) return
             if (number === '.' && this.currentOperand == '') this.currentOperand = '0.'
             else this.currentOperand = this.currentOperand.toString() + number.toString()
-        // }
+        }
     }
 
     chooseOperation(operation) {
@@ -116,6 +109,8 @@ class Calculator {
             case 'xy':
                 result = (prev ** current).toFixed(9)
                 computation = result * 1
+                console.log(result)
+                console.log(computation)
                 break
             default:
                 return
@@ -131,11 +126,15 @@ class Calculator {
         const integerDigits = parseInt(stringNumber.split('.')[0])
         // const integerDigits = parseFloat(stringNumber.split('.')[0])
         const decimalDigits = stringNumber.split('.')[1]
-
+        
         let integerDisplay
-
+        
         if (isNaN(integerDigits)) {
-            integerDisplay = ''
+            if (!isFinite(integerDigits) && number != "") {
+                integerDisplay = 'Это слишком даже для меня'
+            } else {
+                integerDisplay = ''
+            }
         } else {
             integerDisplay = integerDigits.toLocaleString()
         }
@@ -147,7 +146,6 @@ class Calculator {
     }
 
     updateDisplay() {
-        console.log(this.operation)
         this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand)
         if (this.operation != null) {
             if (this.operation === 'xy') {
