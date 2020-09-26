@@ -2,8 +2,9 @@ class Calculator {
     constructor(prevOperandTextElement, currentOperandTextElement) {
         this.prevOperandTextElement = prevOperandTextElement
         this.currentOperandTextElement = currentOperandTextElement
+        // this.readyToReset = false
         this.allClear()
-        this.readyToReset = false
+        this.updateDisplay()
     }
     
     allClear() {
@@ -12,36 +13,53 @@ class Calculator {
         this.operation = undefined;
         this.prevOperandTextElement.innerText = ''
         this.currentOperandTextElement.innerText = '0'
+        this.reset = true
+        this.readyToReset = false
     }
 
     clear() {
         this.currentOperand = '0'
         this.operation = undefined
+        // this.reset = true;
+    }
 
+    equalEvent() {
+        // this.currentOperand = '0'
+        this.currentOperand = '0'
+        this.prevOperand = ''
+        this.operation = undefined
+        this.reset = true;
     }
 
     delete() {
         this.currentOperand = this.currentOperand.toString().slice(0, -1)
     }
 
-    skipToNextOperation() {
-        this.prevOperand = this.currentOperand
-        this.operation = undefined
-    }
-
     plusMinusToggle() {
         this.currentOperand *= -1
     }
 
+    errorBig() {
+        this.currentOperandTextElement.innerText = 'ERROR: too big number';
+        setTimeout(this.allClear, 1000);
+        // this.allClear()
+    }
+
     appendNumber(number) {
-        if (number === '.' && this.currentOperand.includes('.')) return
-        if (number === '.' && this.currentOperand == '') this.currentOperand = '0.'
-        else this.currentOperand = this.currentOperand.toString() + number.toString()
+        // if (this.currentOperand.length > 15) {
+        //     this.errorBig()
+        //     return
+        // } else {
+            if (number === '.' && this.currentOperand.includes('.')) return
+            if (number === '.' && this.currentOperand == '') this.currentOperand = '0.'
+            else this.currentOperand = this.currentOperand.toString() + number.toString()
+        // }
     }
 
     chooseOperation(operation) {
         if (this.currentOperand === '') return
-        if (this.prevOperand !== '') {
+        // if (this.prevOperand !== '') {
+        if (this.currentOperand !== '' && this.previousOperand !== '') {
             this.compute()
         }
         this.operation = operation
@@ -50,9 +68,11 @@ class Calculator {
     }
 
     error() {
-        this.currentOperandTextElement.innerText = "ERROR"
+        this.currentOperandTextElement.innerText = 'ERROR'
+        // this.allClear()
         // may be some more error handling
     }
+
 
     sqrtCompute() {
         let computation
@@ -62,10 +82,9 @@ class Calculator {
             if (Math.sign(prev) > 0) {
                 result = (Math.sqrt(prev)).toFixed(9)
                 computation = result * 1
-            } else {
-                this.error()
-            }
+            } else this.error()
         }
+        this.computation = computation
         this.currentOperand = computation
         this.readyToReset = true
     }
@@ -98,7 +117,6 @@ class Calculator {
                 result = (prev ** current).toFixed(9)
                 computation = result * 1
                 break
-
             default:
                 return
         }
@@ -110,9 +128,12 @@ class Calculator {
 
     getDisplayNumber(number) {
         const stringNumber = number.toString()
-        const integerDigits = parseFloat(stringNumber.split('.')[0])
+        const integerDigits = parseInt(stringNumber.split('.')[0])
+        // const integerDigits = parseFloat(stringNumber.split('.')[0])
         const decimalDigits = stringNumber.split('.')[1]
+
         let integerDisplay
+
         if (isNaN(integerDigits)) {
             integerDisplay = ''
         } else {
@@ -126,25 +147,22 @@ class Calculator {
     }
 
     updateDisplay() {
+        console.log(this.operation)
         this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand)
         if (this.operation != null) {
             if (this.operation === 'xy') {
-                console.log('^')
                 this.prevOperandTextElement.innerText = `${this.getDisplayNumber(this.prevOperand)} ^ `
-            } 
+            }
             if (this.operation === '√x') {
                 this.prevOperandTextElement.innerText = `√${this.getDisplayNumber(this.prevOperand)}`
-                this.currentOperandTextElement.innerText = `${this.getDisplayNumber(this.computation)}`
             }
-            else if (this.operation === '+' || this.operation === '-' || this.operation === '÷' || this.operation === '*' ) {
-                console.log('else')
+            else if (this.operation === '+' || this.operation === '-' || this.operation === '÷' || this.operation === '*') {
                 this.prevOperandTextElement.innerText = `${this.getDisplayNumber(this.prevOperand)} ${this.operation}`
             }
         } else {
             this.prevOperandTextElement.innerText = ''
         }
     }
-
 }
 
 
@@ -166,6 +184,7 @@ const calculator = new Calculator(prevOperandTextElement, currentOperandTextElem
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
         calculator.appendNumber(button.innerText)
+        calculator.reset = false
         calculator.updateDisplay()
     })
 })
@@ -179,8 +198,10 @@ operationButtons.forEach(button => {
 
 equalButton.addEventListener('click', () => {
     calculator.compute()
+    calculator.reset = true;
     calculator.updateDisplay()
-    calculator.skipToNextOperation()
+    calculator.equalEvent()
+    // calculator.clear()
 })
 
 sqrtButton.addEventListener('click', () => {
