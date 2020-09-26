@@ -55,7 +55,7 @@ class Calculator {
         let result
         if (this.operation === '√x') {
             if (Math.sign(prev) > 0) {
-                result = (Math.sqrt(prev)).toFixed(2)
+                result = (Math.sqrt(prev)).toFixed(9)
                 computation = result * 1
             } else {
                 this.error()
@@ -74,23 +74,23 @@ class Calculator {
         if (isNaN(prev) || isNaN(current)) return
         switch (this.operation) {
             case '+':
-                result = (prev + current).toFixed(2)
+                result = (prev + current).toFixed(9)
                 computation = result * 1
                 break
             case '-':
-                result = (prev - current).toFixed(2)
+                result = (prev - current).toFixed(9)
                 computation = result * 1
                 break
             case '*':
-                result = (prev * current).toFixed(2)
+                result = (prev * current).toFixed(9)
                 computation = result * 1
                 break
             case '÷':
-                result = (prev / current).toFixed(2)
+                result = (prev / current).toFixed(9)
                 computation = result * 1
                 break              
             case 'xy':
-                result = (prev ** current).toFixed(2)
+                result = (prev ** current).toFixed(9)
                 computation = result * 1
                 break
 
