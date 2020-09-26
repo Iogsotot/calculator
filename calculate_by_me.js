@@ -13,8 +13,8 @@ class Calculator {
         this.operation = undefined;
         this.prevOperandTextElement.innerText = ''
         this.currentOperandTextElement.innerText = '0'
-        this.reset = true
-        this.readyToReset = false
+        // this.reset = true
+        // this.readyToReset = false
     }
 
     clear() {
@@ -25,10 +25,10 @@ class Calculator {
 
     equalEvent() {
         // this.currentOperand = '0'
-        this.currentOperand = '0'
         this.prevOperand = ''
+        this.currentOperand = '0'
         this.operation = undefined
-        this.reset = true;
+        // this.reset = true;
     }
 
     delete() {
@@ -79,7 +79,7 @@ class Calculator {
         }
         this.computation = computation
         this.currentOperand = computation
-        this.readyToReset = true
+        // this.readyToReset = true
     }
 
     compute() {
@@ -87,6 +87,12 @@ class Calculator {
         let prev = parseFloat(this.prevOperand)
         let current = parseFloat(this.currentOperand)
         let result
+
+        // if (prev == ''  && current != '') {
+        //     console.log('мы тут')
+        //     prev = current
+        //     current = ''
+        // }
 
         if (isNaN(prev) || isNaN(current)) return
         switch (this.operation) {
@@ -118,7 +124,7 @@ class Calculator {
         this.currentOperand = computation
         this.operation = undefined
         this.prevOperand = ''
-        this.readyToReset = true
+        // this.readyToReset = true
     }
 
     getDisplayNumber(number) {
@@ -182,7 +188,7 @@ const calculator = new Calculator(prevOperandTextElement, currentOperandTextElem
 numberButtons.forEach(button => {
     button.addEventListener('click', () => {
         calculator.appendNumber(button.innerText)
-        calculator.reset = false
+        // calculator.reset = false
         calculator.updateDisplay()
     })
 })
@@ -196,10 +202,9 @@ operationButtons.forEach(button => {
 
 equalButton.addEventListener('click', () => {
     calculator.compute()
-    calculator.reset = true;
+    // calculator.reset = true;
     calculator.updateDisplay()
     calculator.equalEvent()
-    // calculator.clear()
 })
 
 sqrtButton.addEventListener('click', () => {
@@ -226,3 +231,26 @@ plusMinusButton.addEventListener('click', () => {
     calculator.plusMinusToggle()
     calculator.updateDisplay()
 })
+
+
+window.addEventListener('keydown', logKey) 
+
+function logKey(e) {
+    console.log(e.key)
+    if (e.key === '+' || e.key === '-' || e.key === '/' || e.key === '*') {
+        calculator.chooseOperation(e.key)
+        calculator.updateDisplay()
+    } 
+    if (e.key === 'Enter' || e.key === '=') {
+        calculator.compute()
+        // calculator.reset = true;
+        calculator.updateDisplay()
+        calculator.equalEvent()
+    }
+    else if (e.key === '0' || e.key === '1' || e.key === '2' || e.key === '3' || e.key === '4' || e.key === '5' || e.key === '6' || e.key === '7' || e.key === '8' || e.key === '9') {
+        calculator.appendNumber(e.key)
+        // calculator.reset = false
+        calculator.updateDisplay()
+    }
+}
+
