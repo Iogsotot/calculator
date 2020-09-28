@@ -4,7 +4,7 @@ class Calculator {
         this.currentOperandTextElement = currentOperandTextElement
         this.readyToReset = false
         this.allClear()
-        this.updateDisplay()
+        // this.updateDisplay()
     }
     
     allClear() {
@@ -18,7 +18,6 @@ class Calculator {
 
     clear() {
         this.currentOperand = '0'
-        this.operation = undefined
         this.readyToReset = false
     }
 
@@ -65,6 +64,7 @@ class Calculator {
                 computation = result * 1
             } else this.error()
         }
+        this.readyToReset = true
         this.computation = computation
         this.currentOperand = computation
     }
@@ -102,10 +102,10 @@ class Calculator {
             default:
                 return
         }
+        this.readyToReset = true
         this.currentOperand = computation
         this.operation = undefined
         this.prevOperand = ''
-        this.readyToReset = true
     }
 
     getDisplayNumber(number) {
@@ -166,9 +166,13 @@ const currentOperandTextElement = document.querySelector(".current-operand")
 const calculator = new Calculator(prevOperandTextElement, currentOperandTextElement)
 
 numberButtons.forEach(button => {
-    button.addEventListener("click", () => {
-        if (calculator.previousOperand === "" && calculator.currentOperand !== "" && calculator.readyToReset) {
-            calculator.currentOperand = "";
+    button.addEventListener('click', () => {
+        // console.log("calculator.previousOperand:" + calculator.previousOperand)
+        // console.log("calculator.currentOperand:" + calculator.currentOperand)
+        // console.log("calculator.readyToReset:" + calculator.readyToReset)
+        if (calculator.currentOperand !== '' && calculator.readyToReset) {
+            // console.log('мы тут')
+            calculator.currentOperand = '';
             calculator.readyToReset = false;
         }
         calculator.appendNumber(button.innerText)
