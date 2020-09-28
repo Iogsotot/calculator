@@ -1,12 +1,21 @@
+@font-face {
+    font-family: "EastSeaDokdo"; 
+    src: url("./assets/east-sea-dokdo-cyrillic.otf") format("truetype"); 
+    font-style: normal; 
+    font-weight: normal; 
+    } 
+
 * {
     margin: 0;
     padding: 0;
 }
 
 body {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    width: 100vw;
-    background: radial-gradient(circle at center, #d8d8e269 20%, #020923 80%);
+    font-family: 'EastSeaDokdo','Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: royalblue;
+    background-image: url("./assets/bg.jpeg");
+    background-size: cover;
+    font-size: 30px;
 }
 
 header {
@@ -24,11 +33,19 @@ footer {
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-end;
-    color: #ffffff;
 }
 
-.copyright {
+.copyright > a, .copyright:visited > a {
+    color: #ffffff;
+    opacity: 0.7;
+    text-decoration: none;
     padding: 40px;
+    transition: all 300ms;
+}
+.copyright:hover > a { 
+    text-decoration: underline;
+    opacity: 1;
+    transition: all 300ms;
 }
 
 .calculator-grid {
@@ -54,18 +71,18 @@ footer {
     word-break: break-all;
 
     color: #ffffff;
-    font-size: 16px;
-    background-color: #010616;
+    border-radius: 10px;
+    background-color: rgba(1, 6, 22, 0.9);
 }
 
 .display > .previous-operand {
-    height: 15px;
-    font-size: 16px;
+    height: 35px;
+    font-size: 30px;
     opacity: 0.7;
 }
 .display > .current-operand {
-    height: 15px;
-    font-size: 22px;
+    height: 50px;
+    font-size: 45px;
 }
 
 .double-size {
@@ -73,6 +90,15 @@ footer {
 }
 
 .btn {
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.75);
+    font-family: 'EastSeaDokdo','Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 40px;
     cursor: pointer;
-    font-size: 20px;
+    transition: all 300ms;
+}
+
+.btn:hover {
+    background-color: #fff;
+    transition: all 250ms;
 }
