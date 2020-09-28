@@ -2,7 +2,7 @@ class Calculator {
     constructor(prevOperandTextElement, currentOperandTextElement) {
         this.prevOperandTextElement = prevOperandTextElement
         this.currentOperandTextElement = currentOperandTextElement
-        // this.readyToReset = false
+        this.readyToReset = false
         this.allClear()
         this.updateDisplay()
     }
@@ -13,22 +13,13 @@ class Calculator {
         this.operation = undefined;
         this.prevOperandTextElement.innerText = ''
         this.currentOperandTextElement.innerText = '0'
-        // this.reset = true
-        // this.readyToReset = false
+        this.readyToReset = false
     }
 
     clear() {
         this.currentOperand = '0'
         this.operation = undefined
-        // this.reset = true;
-    }
-
-    equalEvent() {
-        // this.currentOperand = '0'
-        this.prevOperand = ''
-        this.currentOperand = '0'
-        this.operation = undefined
-        // this.reset = true;
+        this.readyToReset = false
     }
 
     delete() {
@@ -51,7 +42,6 @@ class Calculator {
 
     chooseOperation(operation) {
         if (this.currentOperand === '') return
-        // if (this.prevOperand !== '') {
         if (this.currentOperand !== '' && this.previousOperand !== '') {
             this.compute()
         }
@@ -62,8 +52,6 @@ class Calculator {
 
     error() {
         this.currentOperandTextElement.innerText = 'ERROR'
-        // this.allClear()
-        // may be some more error handling
     }
 
 
@@ -79,7 +67,6 @@ class Calculator {
         }
         this.computation = computation
         this.currentOperand = computation
-        // this.readyToReset = true
     }
 
     compute() {
@@ -87,12 +74,6 @@ class Calculator {
         let prev = parseFloat(this.prevOperand)
         let current = parseFloat(this.currentOperand)
         let result
-
-        // if (prev == ''  && current != '') {
-        //     console.log('мы тут')
-        //     prev = current
-        //     current = ''
-        // }
 
         if (isNaN(prev) || isNaN(current)) return
         switch (this.operation) {
@@ -124,13 +105,12 @@ class Calculator {
         this.currentOperand = computation
         this.operation = undefined
         this.prevOperand = ''
-        // this.readyToReset = true
+        this.readyToReset = true
     }
 
     getDisplayNumber(number) {
         const stringNumber = number.toString()
         const integerDigits = parseInt(stringNumber.split('.')[0])
-        // const integerDigits = parseFloat(stringNumber.split('.')[0])
         const decimalDigits = stringNumber.split('.')[1]
         
         let integerDisplay
@@ -186,10 +166,13 @@ const currentOperandTextElement = document.querySelector(".current-operand")
 const calculator = new Calculator(prevOperandTextElement, currentOperandTextElement)
 
 numberButtons.forEach(button => {
-    button.addEventListener('click', () => {
+    button.addEventListener("click", () => {
+        if (calculator.previousOperand === "" && calculator.currentOperand !== "" && calculator.readyToReset) {
+            calculator.currentOperand = "";
+            calculator.readyToReset = false;
+        }
         calculator.appendNumber(button.innerText)
-        // calculator.reset = false
-        calculator.updateDisplay()
+        calculator.updateDisplay();
     })
 })
 
@@ -202,9 +185,7 @@ operationButtons.forEach(button => {
 
 equalButton.addEventListener('click', () => {
     calculator.compute()
-    // calculator.reset = true;
     calculator.updateDisplay()
-    calculator.equalEvent()
 })
 
 sqrtButton.addEventListener('click', () => {
@@ -243,13 +224,10 @@ function logKey(e) {
     } 
     if (e.key === 'Enter' || e.key === '=') {
         calculator.compute()
-        // calculator.reset = true;
         calculator.updateDisplay()
-        calculator.equalEvent()
     }
     else if (e.key === '0' || e.key === '1' || e.key === '2' || e.key === '3' || e.key === '4' || e.key === '5' || e.key === '6' || e.key === '7' || e.key === '8' || e.key === '9') {
         calculator.appendNumber(e.key)
-        // calculator.reset = false
         calculator.updateDisplay()
     }
 }
