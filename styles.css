@@ -20,11 +20,11 @@ body {
 
 header {
     color: #ffffff;
-    text-shadow: #020923;
+    text-shadow: 1px 1px 2px #020923;
     text-align: center;
-    padding-top: 70px;
+    /* padding-top: 70px;
     margin-bottom: -70px;
-    height: 10vh;
+    height: 10vh; */
 }
 
 footer {
@@ -56,7 +56,7 @@ footer {
     grid-template-rows: minmax(100px, auto) repeat(5, 70px);
     grid-template-columns: repeat(5, 100px);
     grid-gap: 3px;
-    margin: auto;
+    /* margin: auto; */
 }
 
 .display {
@@ -106,4 +106,42 @@ footer {
 .btn:hover {
     background-color: #fff;
     transition: all 250ms;
+}
+
+section {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+
+.manual {
+    background-image: url(./assets/manual__bg.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 872px;
+    width: 651px;
+    margin-left: 30px;
+}
+
+.manual__block {
+    padding-top: 70px;
+}
+
+.manual__block  > h2 {
+    text-align: center;
+    width: inherit;
+}
+
+.manual__text {
+padding: 10px 10px 10px 50px;
+height: inherit;
+width: inherit;
+font-size: 28px;
+}
+
+.text--big {
+    font-size: 40px;
 }
