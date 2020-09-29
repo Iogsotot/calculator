@@ -98,6 +98,10 @@ footer {
     transition: all 300ms;
 }
 
+.btn.number {
+    background-color: rgba(144, 192, 199, 0.85);
+}
+
 .btn:active {
     border: 3px solid rgba(0, 83, 110, 0.7);
     outline: none;
