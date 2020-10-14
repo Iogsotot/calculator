@@ -78,23 +78,23 @@ class Calculator {
         if (isNaN(prev) || isNaN(current)) return
         switch (this.operation) {
             case '+':
-                result = (prev + current).toFixed(9)
+                result = (prev + current).toFixed(12)
                 computation = result * 1
                 break
             case '-':
-                result = (prev - current).toFixed(9)
+                result = (prev - current).toFixed(12)
                 computation = result * 1
                 break
             case '*':
-                result = (prev * current).toFixed(9)
+                result = (prev * current).toFixed(12)
                 computation = result * 1
                 break
             case '÷':
-                result = (prev / current).toFixed(9)
+                result = (prev / current).toFixed(12)
                 computation = result * 1
                 break              
             case 'xy':
-                result = (prev ** current).toFixed(9)
+                result = (prev ** current).toFixed(12)
                 computation = result * 1
                 console.log(result)
                 console.log(computation)
